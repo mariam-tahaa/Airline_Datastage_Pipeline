@@ -1,0 +1,47 @@
+BEGIN HEADER
+   CharacterSet "CP1252"
+   ExportingTool "IBM InfoSphere DataStage Export"
+   ToolVersion "8"
+   ServerName "IBMDSSERVER"
+   ToolInstanceID "ITI45"
+   MDISVersion "1.0"
+   Date "2026-07-04"
+   Time "04.43.25"
+   ServerVersion "9.1"
+END HEADER
+BEGIN DSPARAMETERSETS
+   BEGIN DSRECORD
+      Identifier "OracleParameters"
+      DateModified "2026-07-04"
+      TimeModified "02.38.53"
+      OLEType "CParameterSet"
+      Readonly "0"
+      Category "\\Table Definitions\\parameters"
+      Description "Parameter set created from job 'DimBookingChannelJob' in project 'IBMDSSERVER/ITI45'"
+      Parameters "CParameters"
+      BEGIN DSSUBRECORD
+         Name "oltp_user"
+         Prompt "OLTP User"
+         Default "DS"
+         ParamType "0"
+         ParamLength "0"
+         ParamScale "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "DB_PASSWORD"
+         Prompt "Database Password"
+         Default "123"
+         ParamType "0"
+         ParamLength "0"
+         ParamScale "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "DWH_user"
+         Prompt "DWH_user"
+         Default "DS"
+         ParamType "0"
+         ParamLength "0"
+         ParamScale "0"
+      END DSSUBRECORD
+   END DSRECORD
+END DSPARAMETERSETS

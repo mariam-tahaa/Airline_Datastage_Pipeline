@@ -1,0 +1,1656 @@
+BEGIN HEADER
+   CharacterSet "CP1252"
+   ExportingTool "IBM InfoSphere DataStage Export"
+   ToolVersion "8"
+   ServerName "IBMDSSERVER"
+   ToolInstanceID "ITI45"
+   MDISVersion "1.0"
+   Date "2026-07-04"
+   Time "03.35.32"
+   ServerVersion "9.1"
+END HEADER
+BEGIN DSJOB
+   Identifier "DimFlightsJob"
+   DateModified "2026-07-04"
+   TimeModified "03.23.01"
+   BEGIN DSRECORD
+      Identifier "ROOT"
+      OLEType "CJobDefn"
+      Readonly "0"
+      Name "DimFlightsJob"
+      NextID "138"
+      Container "V0"
+      JobVersion "56.0.0"
+      ControlAfterSubr "0"
+      Parameters "CParameters"
+      BEGIN DSSUBRECORD
+         Name "OracleParameters"
+         Prompt "OracleParameters parameters"
+         Default "(As pre-defined)"
+         ParamType "13"
+         ParamLength "0"
+         ParamScale "0"
+      END DSSUBRECORD
+      MetaBag "CMetaProperty"
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "AdvancedRuntimeOptions"
+         Value "#DSProjectARTOptions#"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "IdentList"
+         Value "Oracle_Connector_0|Transformer_3|Oracle_Connector_5|Key_Generator"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "ClientCodePage"
+         Value "1252"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "TraceMode"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "TraceSeq"
+         Value "1"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "TraceRecords"
+         Value "100"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "TraceSkip"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "TracePeriod"
+         Value "1"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "RecordJobPerformanceData"
+         Value "0"
+      END DSSUBRECORD
+      NULLIndicatorPosition "0"
+      OrchestrateCode =+=+=+=
+#################################################################
+#### STAGE: Oracle_Connector_0
+## Operator
+pxbridge
+## Operator options
+-Orientation link
+-XMLProperties '<?xml version=\\'1.0\\' encoding=\\'UTF-16\\'?><Properties version=\\'1.1\\'><Common><Context type=\\'int\\'>1</Context><Variant type=\\'string\\'>10</Variant><DescriptorVersion type=\\'string\\'>1.0</DescriptorVersion><PartitionType type=\\'int\\'>-1</PartitionType><RCP type=\\'int\\'>0</RCP></Common><Connection><Server modified=\\'1\\' type=\\'string\\'><![CDATA[XE]]></Server><Username modified=\\'1\\' type=\\'string\\'><![CDATA[[&"OracleParameters.oltp_user"]]]></Username><Password modified=\\'1\\' type=\\'string\\'><![CDATA[[&"OracleParameters.DB_PASSWORD"]]]></Password><OSLevelAuthentication modified=\\'1\\' type=\\'bool\\'><![CDATA[0]]></OSLevelAuthentication><Version type=\\'string\\'><![CDATA[10g]]></Version></Connection><Usage><ReadMode type=\\'int\\'><![CDATA[0]]></ReadMode><GenerateSQL modified=\\'1\\' type=\\'bool\\'><![CDATA[0]]></GenerateSQL><EnableQuotedIDs type=\\'bool\\'><![CDATA[0]]></EnableQuotedIDs><SQL><SelectStatement modified=\\'1\\' type=\\'string\\'><![CDATA[SELECT
+    F.FLIGHT_ID,
+    F.FLIGHT_NUMBER,
+    R.ROUTE_SK,
+    A.AIRCRAFT_KEY,
+    F.STATUS
+FROM FLIGHTS F
+JOIN DIM_ROUTES R
+    ON F.ROUTE_ID = R.ROUTE_ID
+JOIN DIMAIRCRAFT A
+    ON F.AIRCRAFT_ID = A.AIRCRAFT_ID;]]><ReadFromFileSelect type=\\'bool\\'><![CDATA[0]]></ReadFromFileSelect><Tables collapsed=\\'1\\'></Tables><Parameters collapsed=\\'1\\'></Parameters><Columns collapsed=\\'1\\'></Columns></SelectStatement></SQL><EnablePartitionedReads collapsed=\\'1\\' type=\\'bool\\'><![CDATA[0]]></EnablePartitionedReads><Transaction><IsolationLevel type=\\'int\\'><![CDATA[0]]></IsolationLevel><RecordCount modified=\\'1\\' type=\\'int\\'><![CDATA[2020]]></RecordCount><EndOfWave type=\\'int\\'><![CDATA[0]]></EndOfWave></Transaction><Session><ArraySize type=\\'int\\'><![CDATA[2000]]></ArraySize><PrefetchRowCount type=\\'int\\'><![CDATA[1]]></PrefetchRowCount><PrefetchMemorySize type=\\'int\\'><![CDATA[0]]></PrefetchMemorySize><PassLobLocator collapsed=\\'1\\' type=\\'bool\\'><![CDATA[0]]></PassLobLocator><BFILEasBLOB type=\\'bool\\'><![CDATA[0]]></BFILEasBLOB><TreatWarningsAsErrors type=\\'bool\\'><![CDATA[0]]></TreatWarningsAsErrors><TreatFetchTruncateAsError type=\\'bool\\'><![CDATA[1]]></TreatFetchTruncateAsError></Session><BeforeAfter collapsed=\\'1\\' type=\\'bool\\'><![CDATA[0]]></BeforeAfter><ApplicationFailoverControl collapsed=\\'1\\' type=\\'bool\\'><![CDATA[0]]></ApplicationFailoverControl></Usage></Properties >'
+-connector '{
+   variant=\\'10\\', 
+   library=ccora10g, 
+   version=1.0, 
+   variantlist=\\'V1;10:"10g":ccora10g;11:"11g":ccora11g\\', 
+   versionlist=\\'1.0,1.0\\', 
+   name=OracleConnector
+}'
+-source 0 '{
+      DSSQLType={FLIGHT_ID=8, FLIGHT_NUMBER=12, ROUTE_ID=8, AIRCRAFT_ID=8, STATUS=12}, 
+      DSSQLPrecision={FLIGHT_NUMBER=10, STATUS=30}, 
+      DSNativeType={FLIGHT_ID=\\'NUMBER\\', FLIGHT_NUMBER=\\'VARCHAR2\\', ROUTE_ID=\\'NUMBER\\', AIRCRAFT_ID=\\'NUMBER\\', STATUS=\\'VARCHAR2\\'}, 
+      DSSchema=\\'record
+         (
+           FLIGHT_ID\\:nullable dfloat\\;
+           FLIGHT_NUMBER\\:nullable ustring\\[max\\=10\\]\\;
+           ROUTE_ID\\:nullable dfloat\\;
+           AIRCRAFT_ID\\:nullable dfloat\\;
+           STATUS\\:nullable ustring\\[max\\=30\\]\\;
+         )\\'
+}'
+   
+
+## General options
+[ident('Oracle_Connector_0'); jobmon_ident('Oracle_Connector_0')]
+## Outputs
+0> [modify (
+  FLIGHT_ID:nullable dfloat=FLIGHT_ID;
+  FLIGHT_NUMBER:nullable ustring[max=10]=FLIGHT_NUMBER;
+  ROUTE_ID:nullable dfloat=ROUTE_ID;
+  AIRCRAFT_ID:nullable dfloat=AIRCRAFT_ID;
+  STATUS:nullable ustring[max=30]=STATUS;
+keep
+  FLIGHT_ID,FLIGHT_NUMBER,ROUTE_ID,AIRCRAFT_ID,
+  STATUS;
+)] 'Oracle_Connector_0:DSLink20.v'
+;
+
+#################################################################
+#### STAGE: Transformer_3
+## Operator
+transform
+## Operator options
+-flag run
+-name 'V0S3_DimFlightsJob_Transformer_3'
+
+## General options
+[ident('Transformer_3'); jobmon_ident('Transformer_3')]
+## Inputs
+0< [] 'Key_Generator:DSLink21.v'
+## Outputs
+0> [] 'Transformer_3:DSLink22.v'
+;
+
+#################################################################
+#### STAGE: Oracle_Connector_5
+## Operator
+pxbridge
+## Operator options
+-Orientation link
+-XMLProperties '<?xml version=\\'1.0\\' encoding=\\'UTF-16\\'?><Properties version=\\'1.1\\'><Common><Context type=\\'int\\'>2</Context><Variant type=\\'string\\'>10</Variant><DescriptorVersion type=\\'string\\'>1.0</DescriptorVersion><PartitionType type=\\'int\\'>-1</PartitionType><RCP type=\\'int\\'>0</RCP></Common><Connection><Server modified=\\'1\\' type=\\'string\\'><![CDATA[XE]]></Server><Username modified=\\'1\\' type=\\'string\\'><![CDATA[[&"OracleParameters.DWH_user"]]]></Username><Password modified=\\'1\\' type=\\'string\\'><![CDATA[[&"OracleParameters.DB_PASSWORD"]]]></Password><OSLevelAuthentication type=\\'bool\\'><![CDATA[0]]></OSLevelAuthentication><Version type=\\'string\\'><![CDATA[10g]]></Version></Connection><Usage><WriteMode type=\\'int\\'><![CDATA[0]]></WriteMode><GenerateSQL modified=\\'1\\' type=\\'bool\\'><![CDATA[1]]></GenerateSQL><TableName modified=\\'1\\' type=\\'string\\'><![CDATA[dim_flight]]><TableScope type=\\'int\\'><![CDATA[0]]></TableScope></TableName><EnableQuotedIDs type=\\'bool\\'><![CDATA[0]]></EnableQuotedIDs><SQL></SQL><TableAction modified=\\'1\\' type=\\'int\\'><![CDATA[3]]><GenerateTruncateStatement type=\\'bool\\'><![CDATA[1]]><FailOnError type=\\'bool\\'><![CDATA[1]]></FailOnError></GenerateTruncateStatement><TableActionFirst type=\\'bool\\'><![CDATA[1]]></TableActionFirst></TableAction><Transaction><IsolationLevel type=\\'int\\'><![CDATA[0]]></IsolationLevel><RecordCount type=\\'int\\'><![CDATA[2000]]></RecordCount></Transaction><Session><ArraySize type=\\'int\\'><![CDATA[2000]]></ArraySize><DropUnmatchedFields type=\\'bool\\'><![CDATA[0]]></DropUnmatchedFields><TreatWarningsAsErrors type=\\'bool\\'><![CDATA[0]]></TreatWarningsAsErrors><PreserveTrailingBlanks type=\\'bool\\'><![CDATA[1]]></PreserveTrailingBlanks><FailOnRowErrorPX type=\\'bool\\'><![CDATA[1]]></FailOnRowErrorPX></Session><Logging><LogColumnValues collapsed=\\'1\\' type=\\'bool\\'><![CDATA[0]]></LogColumnValues></Logging><BeforeAfter collapsed=\\'1\\' type=\\'bool\\'><![CDATA[0]]></BeforeAfter><ApplicationFailoverControl collapsed=\\'1\\' type=\\'bool\\'><![CDATA[0]]></ApplicationFailoverControl><Reconnect collapsed=\\'1\\' type=\\'bool\\'><![CDATA[0]]></Reconnect><Disconnect collapsed=\\'1\\' type=\\'int\\'><![CDATA[0]]></Disconnect></Usage></Properties >'
+-connector '{
+   variant=\\'10\\', 
+   library=ccora10g, 
+   version=1.0, 
+   variantlist=\\'V1;10:"10g":ccora10g;11:"11g":ccora11g\\', 
+   versionlist=\\'1.0,1.0\\', 
+   name=OracleConnector
+}'
+-target 0 '{
+      DSIsKey={FLIGHT_KEY=1}, 
+      DSSQLType={FLIGHT_ID=8, FLIGHT_NUMBER=12, ROUTE_KEY=8, AIRCRAFT_KEY=8, STATUS=12, FLIGHT_KEY=4}, 
+      DSDerivation={FLIGHT_ID=\\'DSLink21\\.FLIGHT_ID\\', FLIGHT_NUMBER=\\'DSLink21\\.FLIGHT_NUMBER\\', ROUTE_KEY=\\'DSLink21\\.ROUTE_ID\\', AIRCRAFT_KEY=\\'DSLink21\\.AIRCRAFT_ID\\', STATUS=\\'DSLink21\\.STATUS\\', FLIGHT_KEY=\\'DSLink21\\.ID\\'}, 
+      DSSQLPrecision={FLIGHT_NUMBER=10, STATUS=30}, 
+      DSNativeType={FLIGHT_ID=\\'NUMBER\\', FLIGHT_NUMBER=\\'VARCHAR2\\', ROUTE_KEY=\\'NUMBER\\', AIRCRAFT_KEY=\\'NUMBER\\', STATUS=\\'VARCHAR2\\'}, 
+      DSSchema=\\'record
+         (
+           FLIGHT_ID\\:nullable dfloat\\;
+           FLIGHT_NUMBER\\:nullable ustring\\[max\\=10\\]\\;
+           ROUTE_KEY\\:nullable dfloat\\;
+           AIRCRAFT_KEY\\:nullable dfloat\\;
+           STATUS\\:nullable ustring\\[max\\=30\\]\\;
+           FLIGHT_KEY\\:int32\\;
+         )\\'
+}'
+   
+
+## General options
+[ident('Oracle_Connector_5'); jobmon_ident('Oracle_Connector_5')]
+## Inputs
+0< [] 'Transformer_3:DSLink22.v'
+;
+
+#################################################################
+#### STAGE: Key_Generator
+## Operator
+generator
+## Operator options
+-schema record
+(
+  ID:int32 {cycle={init='1+part',incr=partcount}};
+)
+
+## General options
+[ident('Key_Generator'); jobmon_ident('Key_Generator'); seq]
+## Inputs
+0< [] 'Oracle_Connector_0:DSLink20.v'
+## Outputs
+0> [modify (
+keep
+  FLIGHT_ID,FLIGHT_NUMBER,ROUTE_ID,AIRCRAFT_ID,
+  STATUS,ID;
+)] 'Key_Generator:DSLink21.v'
+;
+
+
+=+=+=+=
+      IsTemplate "0"
+      NLSLocale ",,,,"
+      JobType "3"
+      Category "\\Jobs\\DS "
+      CenturyBreakYear "30"
+      NextAliasID "2"
+      ParameterFileDDName "DD00001"
+      ReservedWordCheck "1"
+      TransactionSize "0"
+      ValidationStatus "0"
+      Uploadable "0"
+      PgmCustomizationFlag "0"
+      JobReportFlag "0"
+      AllowMultipleInvocations "0"
+      Act2ActOverideDefaults "0"
+      Act2ActEnableRowBuffer "0"
+      Act2ActUseIPC "0"
+      Act2ActBufferSize "0"
+      Act2ActIPCTimeout "0"
+      ExpressionSemanticCheckFlag "0"
+      TraceOption "0"
+      EnableCacheSharing "0"
+      RuntimeColumnPropagation "0"
+      RelStagesInJobStatus "-1"
+      WebServiceEnabled "0"
+      MFProcessMetaData "0"
+      MFProcessMetaDataXMLFileExchangeMethod "0"
+      IMSProgType "0"
+      CopyLibPrefix "ARDT"
+      RecordPerformanceResults "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V0"
+      OLEType "CContainerView"
+      Readonly "0"
+      Name "Job"
+      NextID "1"
+      IsTopLevel "0"
+      StageList "V0S0|V0S3|V0S5|V137S0"
+      StageXPos "648|1200|1512|888"
+      StageYPos "216|216|216|288"
+      StageTypes "CCustomStage.CC_GUI|CTransformerStage|CCustomStage.CC_GUI|CCustomStage"
+      NextStageID "23"
+      SnapToGrid "1"
+      GridLines "0"
+      ZoomValue "120"
+      StageXSize "55|48|48|48"
+      StageYSize "48|48|48|48"
+      ContainerViewSizing "0066 0066 1101 0249 0000 0001 0661 0000"
+      StageNames "Oracle_Connector_0|Transformer_3|Oracle_Connector_5|Key_Generator"
+      StageTypeIDs "OracleConnectorPX|CTransformerStage|OracleConnectorPX|PxSurrogateKeyGenerator"
+      LinkNames "DSLink20|DSLink22| |DSLink21"
+      LinkHasMetaDatas "True|True| |True"
+      LinkTypes "1|1| |1"
+      LinkNamePositionXs "795|1380| |1068"
+      LinkNamePositionYs "256|240| |276"
+      TargetStageIDs "V137S0|V0S5| |V0S3"
+      SourceStageEffectiveExecutionModes "2|2| |1"
+      SourceStageRuntimeExecutionModes "2|2| |1"
+      TargetStageEffectiveExecutionModes "1|2| |2"
+      TargetStageRuntimeExecutionModes "1|2| |2"
+      LinkIsSingleOperatorLookup "False|False| |False"
+      LinkIsSortSequential "False|False| |False"
+      LinkSortMode "0|0| |0"
+      LinkPartColMode "1|1| |1"
+      LinkSourcePinIDs "V0S0P6|V0S3P10| |V137S0P9"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V0S0"
+      OLEType "CCustomStage"
+      Readonly "0"
+      Name "Oracle_Connector_0"
+      NextID "7"
+      OutputPins "V0S0P6"
+      StageType "OracleConnectorPX"
+      AllowColumnMapping "0"
+      Properties "CCustomProperty"
+      BEGIN DSSUBRECORD
+         Name "VariantName"
+         Value "10"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "VariantLibrary"
+         Value "ccora10g"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "VariantVersion"
+         Value "1.0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "SupportedVariants"
+         Value "V1;10:\"10g\":ccora10g;11:\"11g\":ccora11g"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "SupportedVariantsLibraries"
+         Value "ccora10g,ccora11g"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "SupportedVariantsVersions"
+         Value "1.0,1.0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Orientation"
+         Value "link"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectFromLink"
+         Value "-1"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectThreshold"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectNumber"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectUsesPercentage"
+         Value "false"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ConnectorName"
+         Value "OracleConnector"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Engine"
+         Value "EE"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Context"
+         Value "source"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ConnectionString"
+         Value "/Connection/Server"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Username"
+         Value "/Connection/Username"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Password"
+         Value "/Connection/Password"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "xaoDbName"
+         Value "/Connection/xaoDbName"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "OSLevelAuthentication"
+         Value "/Connection/OSLevelAuthentication"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "XMLProperties"
+         Value =+=+=+=
+<?xml version='1.0' encoding='UTF-16'?><Properties version='1.1'><Common><Context type='int'>1</Context><Variant type='string'>10</Variant><DescriptorVersion type='string'>1.0</DescriptorVersion><PartitionType type='int'>-1</PartitionType><RCP type='int'>0</RCP></Common><Connection><Server modified='1' type='string'><![CDATA[XE]]></Server><Username modified='1' type='string'><![CDATA[#OracleParameters.oltp_user#]]></Username><Password modified='1' type='string'><![CDATA[#OracleParameters.DB_PASSWORD#]]></Password><OSLevelAuthentication modified='1' type='bool'><![CDATA[0]]></OSLevelAuthentication><Version type='string'><![CDATA[10g]]></Version></Connection><Usage><ReadMode type='int'><![CDATA[0]]></ReadMode><GenerateSQL modified='1' type='bool'><![CDATA[0]]></GenerateSQL><EnableQuotedIDs type='bool'><![CDATA[0]]></EnableQuotedIDs><SQL><SelectStatement modified='1' type='string'><![CDATA[SELECT
+    F.FLIGHT_ID,
+    F.FLIGHT_NUMBER,
+    R.ROUTE_SK,
+    A.AIRCRAFT_KEY,
+    F.STATUS
+FROM FLIGHTS F
+JOIN DIM_ROUTES R
+    ON F.ROUTE_ID = R.ROUTE_ID
+JOIN DIMAIRCRAFT A
+    ON F.AIRCRAFT_ID = A.AIRCRAFT_ID;]]><ReadFromFileSelect type='bool'><![CDATA[0]]></ReadFromFileSelect><Tables collapsed='1'></Tables><Parameters collapsed='1'></Parameters><Columns collapsed='1'></Columns></SelectStatement></SQL><EnablePartitionedReads collapsed='1' type='bool'><![CDATA[0]]></EnablePartitionedReads><Transaction><IsolationLevel type='int'><![CDATA[0]]></IsolationLevel><RecordCount modified='1' type='int'><![CDATA[2020]]></RecordCount><EndOfWave type='int'><![CDATA[0]]></EndOfWave></Transaction><Session><ArraySize type='int'><![CDATA[2000]]></ArraySize><PrefetchRowCount type='int'><![CDATA[1]]></PrefetchRowCount><PrefetchMemorySize type='int'><![CDATA[0]]></PrefetchMemorySize><PassLobLocator collapsed='1' type='bool'><![CDATA[0]]></PassLobLocator><BFILEasBLOB type='bool'><![CDATA[0]]></BFILEasBLOB><TreatWarningsAsErrors type='bool'><![CDATA[0]]></TreatWarningsAsErrors><TreatFetchTruncateAsError type='bool'><![CDATA[1]]></TreatFetchTruncateAsError></Session><BeforeAfter collapsed='1' type='bool'><![CDATA[0]]></BeforeAfter><ApplicationFailoverControl collapsed='1' type='bool'><![CDATA[0]]></ApplicationFailoverControl></Usage></Properties >
+=+=+=+=
+      END DSSUBRECORD
+      NextRecordID "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V0S0P6"
+      OLEType "CCustomOutput"
+      Readonly "0"
+      Name "DSLink20"
+      Partner "V137S0|V137S0P8"
+      Properties "CCustomProperty"
+      BEGIN DSSUBRECORD
+         Name "lookup\\type"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "VariantName"
+         Value "10"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "VariantLibrary"
+         Value "ccora10g"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "VariantVersion"
+         Value "1.0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectFromLink"
+         Value "-1"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectThreshold"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectNumber"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectUsesPercentage"
+         Value "false"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ConnectorName"
+         Value "OracleConnector"
+      END DSSUBRECORD
+      Columns "COutputColumn"
+      BEGIN DSSUBRECORD
+         Name "FLIGHT_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Group "0"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "1"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "FLIGHT_ID"
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "FLIGHT_NUMBER"
+         SqlType "12"
+         Precision "10"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Group "0"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "2"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "VARCHAR2"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "FLIGHT_NUMBER"
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ROUTE_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Group "0"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "3"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "ROUTE_ID"
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "AIRCRAFT_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Group "0"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "4"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "AIRCRAFT_ID"
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "STATUS"
+         SqlType "12"
+         Precision "30"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Group "0"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "9"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "VARCHAR2"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "STATUS"
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      MetaBag "CMetaProperty"
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "DiskWriteInc"
+         Value "1048576"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "BufFreeRun"
+         Value "50"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "MaxMemBufSize"
+         Value "3145728"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "QueueUpperSize"
+         Value "0"
+      END DSSUBRECORD
+      LeftTextPos "795"
+      TopTextPos "256"
+      LinkMinimised "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V0S3"
+      OLEType "CTransformerStage"
+      Readonly "0"
+      Name "Transformer_3"
+      NextID "11"
+      InputPins "V0S3P9"
+      OutputPins "V0S3P10"
+      MetaBag "CMetaProperty"
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "TrxGenCode"
+         Value =+=+=+=
+//
+// Generated file to implement the V0S3_DimFlightsJob_Transformer_3 transform operator.
+//
+
+// define our input/output link names
+inputname 0 DSLink21;
+outputname 0 DSLink22;
+
+initialize {
+	// define our control variables
+	int8 RowRejected0;
+	int8 NullSetVar0;
+
+}
+
+mainloop {
+
+	// initialise the rejected row variable
+	RowRejected0 = 1;
+
+	// evaluate columns (no constraints) for link: DSLink22
+	DSLink22.ROUTE_KEY = DSLink21.ROUTE_ID;
+	DSLink22.AIRCRAFT_KEY = DSLink21.AIRCRAFT_ID;
+	DSLink22.FLIGHT_KEY = DSLink21.ID;
+	writerecord 0;
+	RowRejected0 = 0;
+}
+
+finish {
+}
+
+=+=+=+=
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "TrxGenCache"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "TrxClassName"
+         Value "V0S3_DimFlightsJob_Transformer_3"
+      END DSSUBRECORD
+      ValidationStatus "0"
+      StageType "CTransformerStage"
+      BlockSize "0"
+      StageVarsMinimised "0"
+      LoopVarsMaximised "0"
+      MaxLoopIterations "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V0S3P10"
+      OLEType "CTrxOutput"
+      Readonly "0"
+      Name "DSLink22"
+      Partner "V0S5|V0S5P4"
+      Reject "0"
+      ErrorPin "0"
+      RowLimit "0"
+      Columns "COutputColumn"
+      BEGIN DSSUBRECORD
+         Name "FLIGHT_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink21.FLIGHT_ID"
+         Group "0"
+         ParsedDerivation "DSLink21.FLIGHT_ID"
+         SourceColumn "DSLink21.FLIGHT_ID"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "1"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "FLIGHT_ID"
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "FLIGHT_NUMBER"
+         SqlType "12"
+         Precision "10"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink21.FLIGHT_NUMBER"
+         Group "0"
+         ParsedDerivation "DSLink21.FLIGHT_NUMBER"
+         SourceColumn "DSLink21.FLIGHT_NUMBER"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "2"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "VARCHAR2"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "FLIGHT_NUMBER"
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ROUTE_KEY"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink21.ROUTE_ID"
+         Group "0"
+         ParsedDerivation "DSLink21.ROUTE_ID"
+         SourceColumn "DSLink21.ROUTE_ID"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "3"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "ROUTE_ID"
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "AIRCRAFT_KEY"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink21.AIRCRAFT_ID"
+         Group "0"
+         ParsedDerivation "DSLink21.AIRCRAFT_ID"
+         SourceColumn "DSLink21.AIRCRAFT_ID"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "4"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "AIRCRAFT_ID"
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "STATUS"
+         SqlType "12"
+         Precision "30"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink21.STATUS"
+         Group "0"
+         ParsedDerivation "DSLink21.STATUS"
+         SourceColumn "DSLink21.STATUS"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "9"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "VARCHAR2"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "STATUS"
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "FLIGHT_KEY"
+         SqlType "4"
+         Precision "0"
+         Scale "0"
+         Nullable "0"
+         KeyPosition "1"
+         DisplaySize "0"
+         Derivation "DSLink21.ID"
+         Group "0"
+         ParsedDerivation "DSLink21.ID"
+         SourceColumn "DSLink21.ID"
+         SortKey "0"
+         SortType "0"
+         AllowCRLF "0"
+         LevelNo "0"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      MetaBag "CMetaProperty"
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "DiskWriteInc"
+         Value "1048576"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "BufFreeRun"
+         Value "50"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "MaxMemBufSize"
+         Value "3145728"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "QueueUpperSize"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "Schema"
+         Value =+=+=+=
+record
+(
+  FLIGHT_ID:nullable dfloat;
+  FLIGHT_NUMBER:nullable ustring[max=10];
+  ROUTE_KEY:nullable dfloat;
+  AIRCRAFT_KEY:nullable dfloat;
+  STATUS:nullable ustring[max=30];
+  FLIGHT_KEY:int32;
+)
+=+=+=+=
+      END DSSUBRECORD
+      LeftTextPos "1380"
+      TopTextPos "240"
+      LinkMinimised "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V0S3P9"
+      OLEType "CTrxInput"
+      Readonly "0"
+      Name "DSLink21"
+      Partner "V137S0|V137S0P9"
+      LinkType "1"
+      MetaBag "CMetaProperty"
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "RTColumnProp"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "Schema"
+         Value =+=+=+=
+record
+(
+  FLIGHT_ID:nullable dfloat;
+  FLIGHT_NUMBER:nullable ustring[max=10];
+  ROUTE_ID:nullable dfloat;
+  AIRCRAFT_ID:nullable dfloat;
+  STATUS:nullable ustring[max=30];
+  ID:int32;
+)
+=+=+=+=
+      END DSSUBRECORD
+      MultiRow "0"
+      LinkMinimised "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V0S5"
+      OLEType "CCustomStage"
+      Readonly "0"
+      Name "Oracle_Connector_5"
+      NextID "5"
+      InputPins "V0S5P4"
+      StageType "OracleConnectorPX"
+      AllowColumnMapping "0"
+      Properties "CCustomProperty"
+      BEGIN DSSUBRECORD
+         Name "VariantName"
+         Value "10"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "VariantLibrary"
+         Value "ccora10g"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "VariantVersion"
+         Value "1.0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "SupportedVariants"
+         Value "V1;10:\"10g\":ccora10g;11:\"11g\":ccora11g"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "SupportedVariantsLibraries"
+         Value "ccora10g,ccora11g"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "SupportedVariantsVersions"
+         Value "1.0,1.0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Orientation"
+         Value "link"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectFromLink"
+         Value "-1"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectThreshold"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectNumber"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectUsesPercentage"
+         Value "false"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ConnectorName"
+         Value "OracleConnector"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Engine"
+         Value "EE"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Context"
+         Value "target"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ConnectionString"
+         Value "/Connection/Server"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Username"
+         Value "/Connection/Username"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "Password"
+         Value "/Connection/Password"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "xaoDbName"
+         Value "/Connection/xaoDbName"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "OSLevelAuthentication"
+         Value "/Connection/OSLevelAuthentication"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "XMLProperties"
+         Value "<?xml version='1.0' encoding='UTF-16'?><Properties version='1.1'><Common><Context type='int'>2</Context><Variant type='string'>10</Variant><DescriptorVersion type='string'>1.0</DescriptorVersion><PartitionType type='int'>-1</PartitionType><RCP type='int'>0</RCP></Common><Connection><Server modified='1' type='string'><![CDATA[XE]]></Server><Username modified='1' type='string'><![CDATA[#OracleParameters.DWH_user#]]></Username><Password modified='1' type='string'><![CDATA[#OracleParameters.DB_PASSWORD#]]></Password><OSLevelAuthentication type='bool'><![CDATA[0]]></OSLevelAuthentication><Version type='string'><![CDATA[10g]]></Version></Connection><Usage><WriteMode type='int'><![CDATA[0]]></WriteMode><GenerateSQL modified='1' type='bool'><![CDATA[1]]></GenerateSQL><TableName modified='1' type='string'><![CDATA[dim_flight]]><TableScope type='int'><![CDATA[0]]></TableScope></TableName><EnableQuotedIDs type='bool'><![CDATA[0]]></EnableQuotedIDs><SQL></SQL><TableAction modified='1' type='int'><![CDATA[3]]><GenerateTruncateStatement type='bool'><![CDATA[1]]><FailOnError type='bool'><![CDATA[1]]></FailOnError></GenerateTruncateStatement><TableActionFirst type='bool'><![CDATA[1]]></TableActionFirst></TableAction><Transaction><IsolationLevel type='int'><![CDATA[0]]></IsolationLevel><RecordCount type='int'><![CDATA[2000]]></RecordCount></Transaction><Session><ArraySize type='int'><![CDATA[2000]]></ArraySize><DropUnmatchedFields type='bool'><![CDATA[0]]></DropUnmatchedFields><TreatWarningsAsErrors type='bool'><![CDATA[0]]></TreatWarningsAsErrors><PreserveTrailingBlanks type='bool'><![CDATA[1]]></PreserveTrailingBlanks><FailOnRowErrorPX type='bool'><![CDATA[1]]></FailOnRowErrorPX></Session><Logging><LogColumnValues collapsed='1' type='bool'><![CDATA[0]]></LogColumnValues></Logging><BeforeAfter collapsed='1' type='bool'><![CDATA[0]]></BeforeAfter><ApplicationFailoverControl collapsed='1' type='bool'><![CDATA[0]]></ApplicationFailoverControl><Reconnect collapsed='1' type='bool'><![CDATA[0]]></Reconnect><Disconnect collapsed='1' type='int'><![CDATA[0]]></Disconnect></Usage></Properties >"
+      END DSSUBRECORD
+      NextRecordID "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V0S5P4"
+      OLEType "CCustomInput"
+      Readonly "0"
+      Name "DSLink22"
+      Partner "V0S3|V0S3P10"
+      LinkType "1"
+      ConditionNotMet "fail"
+      LookupFail "fail"
+      Properties "CCustomProperty"
+      BEGIN DSSUBRECORD
+         Name "VariantName"
+         Value "10"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "VariantLibrary"
+         Value "ccora10g"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "VariantVersion"
+         Value "1.0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectFromLink"
+         Value "-1"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectThreshold"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectNumber"
+         Value "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "RejectUsesPercentage"
+         Value "false"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ConnectorName"
+         Value "OracleConnector"
+      END DSSUBRECORD
+      MetaBag "CMetaProperty"
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "RTColumnProp"
+         Value "0"
+      END DSSUBRECORD
+      TransactionSize "0"
+      TXNBehaviour "0"
+      EnableTxGroup "0"
+      LinkMinimised "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V137S0"
+      OLEType "CCustomStage"
+      Readonly "0"
+      Name "Key_Generator"
+      NextID "10"
+      InputPins "V137S0P8"
+      OutputPins "V137S0P9"
+      StageType "PxSurrogateKeyGenerator"
+      AllowColumnMapping "0"
+      Properties "CCustomProperty"
+      BEGIN DSSUBRECORD
+         Name "key"
+         Value "\(2)\(2)0\(1)\(3)key\(2)ID\(2)0\(1)\(3)\(3)initial\(2)1\(2)0\(1)\(3)\(3)type\(2)int32\(2)0"
+      END DSSUBRECORD
+      MetaBag "CMetaProperty"
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "Execmode"
+         Value "seq"
+      END DSSUBRECORD
+      NextRecordID "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V137S0P8"
+      OLEType "CCustomInput"
+      Readonly "0"
+      Name "DSLink20"
+      Partner "V0S0|V0S0P6"
+      LinkType "1"
+      ConditionNotMet "fail"
+      LookupFail "fail"
+      MetaBag "CMetaProperty"
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "RTColumnProp"
+         Value "0"
+      END DSSUBRECORD
+      TransactionSize "0"
+      TXNBehaviour "0"
+      EnableTxGroup "0"
+      LinkMinimised "0"
+   END DSRECORD
+   BEGIN DSRECORD
+      Identifier "V137S0P9"
+      OLEType "CCustomOutput"
+      Readonly "0"
+      Name "DSLink21"
+      Partner "V0S3|V0S3P9"
+      Columns "COutputColumn"
+      BEGIN DSSUBRECORD
+         Name "FLIGHT_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink20.FLIGHT_ID"
+         Group "0"
+         ParsedDerivation "DSLink20.FLIGHT_ID"
+         SourceColumn "DSLink20.FLIGHT_ID"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "1"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "FLIGHT_ID"
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "FLIGHT_NUMBER"
+         SqlType "12"
+         Precision "10"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink20.FLIGHT_NUMBER"
+         Group "0"
+         ParsedDerivation "DSLink20.FLIGHT_NUMBER"
+         SourceColumn "DSLink20.FLIGHT_NUMBER"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "2"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "VARCHAR2"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "FLIGHT_NUMBER"
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ROUTE_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink20.ROUTE_ID"
+         Group "0"
+         ParsedDerivation "DSLink20.ROUTE_ID"
+         SourceColumn "DSLink20.ROUTE_ID"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "3"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "ROUTE_ID"
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "AIRCRAFT_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink20.AIRCRAFT_ID"
+         Group "0"
+         ParsedDerivation "DSLink20.AIRCRAFT_ID"
+         SourceColumn "DSLink20.AIRCRAFT_ID"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "4"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "AIRCRAFT_ID"
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "STATUS"
+         SqlType "12"
+         Precision "30"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         Derivation "DSLink20.STATUS"
+         Group "0"
+         ParsedDerivation "DSLink20.STATUS"
+         SourceColumn "DSLink20.STATUS"
+         SortKey "0"
+         SortType "0"
+         TableDef "Database\\XE\\DS.FLIGHTS"
+         FieldPos "9"
+         AllowCRLF "0"
+         LevelNo "0"
+         NativeType "VARCHAR2"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ColumnReference "STATUS"
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ID"
+         SqlType "4"
+         Precision "0"
+         Scale "0"
+         Nullable "0"
+         KeyPosition "1"
+         DisplaySize "0"
+         Derivation "GenerateKey(ID)"
+         Group "0"
+         ParsedDerivation "GenerateKey(ID)"
+         SortKey "0"
+         SortType "0"
+         AllowCRLF "0"
+         LevelNo "0"
+         Occurs "0"
+         PadNulls "0"
+         SignOption "0"
+         SortingOrder "0"
+         ArrayHandling "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+         PKeyIsCaseless "0"
+         SCDPurpose "0"
+      END DSSUBRECORD
+      MetaBag "CMetaProperty"
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "DiskWriteInc"
+         Value "1048576"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "BufFreeRun"
+         Value "50"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "MaxMemBufSize"
+         Value "3145728"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Owner "APT"
+         Name "QueueUpperSize"
+         Value "0"
+      END DSSUBRECORD
+      LeftTextPos "1068"
+      TopTextPos "276"
+      LinkMinimised "0"
+   END DSRECORD
+END DSJOB
+BEGIN DSSTAGETYPES
+END DSSTAGETYPES
+BEGIN DSTABLEDEFS
+   BEGIN DSRECORD
+      Identifier "Database\\XE\\DS.FLIGHTS"
+      DateModified "2026-07-03"
+      TimeModified "21.25.07"
+      OLEType "CMetaTable"
+      Readonly "0"
+      Category "\\Table Definitions"
+      Version "9"
+      QuoteChar "\""
+      Multivalued "0"
+      Columns "CMetaColumn"
+      BEGIN DSSUBRECORD
+         Name "FLIGHT_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "1"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "FLIGHT_NUMBER"
+         SqlType "12"
+         Precision "10"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "2"
+         LevelNo "0"
+         NativeType "VARCHAR2"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ROUTE_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "3"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "AIRCRAFT_ID"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "4"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "SCHEDULED_DEPARTURE"
+         SqlType "11"
+         Precision "0"
+         Scale "6"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "5"
+         LevelNo "0"
+         NativeType "TIMESTAMP"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "SCHEDULED_ARRIVAL"
+         SqlType "11"
+         Precision "0"
+         Scale "6"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "6"
+         LevelNo "0"
+         NativeType "TIMESTAMP"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ACTUAL_DEPARTURE"
+         SqlType "11"
+         Precision "0"
+         Scale "6"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "7"
+         LevelNo "0"
+         NativeType "TIMESTAMP"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ACTUAL_ARRIVAL"
+         SqlType "11"
+         Precision "0"
+         Scale "6"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "8"
+         LevelNo "0"
+         NativeType "TIMESTAMP"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "1"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "STATUS"
+         SqlType "12"
+         Precision "30"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "9"
+         LevelNo "0"
+         NativeType "VARCHAR2"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "ECONOMY_SEATS_AVAILABLE"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "10"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "BUSINESS_SEATS_AVAILABLE"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "11"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "FIRST_SEATS_AVAILABLE"
+         SqlType "8"
+         Precision "0"
+         Scale "0"
+         Nullable "1"
+         KeyPosition "0"
+         DisplaySize "0"
+         FieldPos "12"
+         LevelNo "0"
+         NativeType "NUMBER"
+         Occurs "0"
+         SignOption "0"
+         SCDPurpose "0"
+         SyncIndicator "0"
+         PadChar ""
+         ExtendedPrecision "0"
+         TaggedSubrec "0"
+         OccursVarying "0"
+      END DSSUBRECORD
+      SEQ-ColHeaders "0"
+      SEQ-FixedWidth "0"
+      SEQ-ColSpace "0"
+      SEQ-OmitNewLine "0"
+      AllowColumnMapping "0"
+      Locator "TableType=\"other\"|Computer=\"IBMDSSERVER\"|SoftwareProduct=\"Oracle\"|DataStore=\"XE\"|DataSchema=\"DS\"|DataCollection(TABLE)=\"FLIGHTS\""
+      PadChar ""
+      RegistrationTimestamp "2026/07/03 18:25:07"
+   END DSRECORD
+END DSTABLEDEFS
+BEGIN DSPARAMETERSETS
+   BEGIN DSRECORD
+      Identifier "OracleParameters"
+      DateModified "2026-07-04"
+      TimeModified "02.38.53"
+      OLEType "CParameterSet"
+      Readonly "0"
+      Category "\\Table Definitions\\parameters"
+      Description "Parameter set created from job 'DimBookingChannelJob' in project 'IBMDSSERVER/ITI45'"
+      Parameters "CParameters"
+      BEGIN DSSUBRECORD
+         Name "oltp_user"
+         Prompt "OLTP User"
+         Default "DS"
+         ParamType "0"
+         ParamLength "0"
+         ParamScale "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "DB_PASSWORD"
+         Prompt "Database Password"
+         Default "123"
+         ParamType "0"
+         ParamLength "0"
+         ParamScale "0"
+      END DSSUBRECORD
+      BEGIN DSSUBRECORD
+         Name "DWH_user"
+         Prompt "DWH_user"
+         Default "DS"
+         ParamType "0"
+         ParamLength "0"
+         ParamScale "0"
+      END DSSUBRECORD
+   END DSRECORD
+END DSPARAMETERSETS
