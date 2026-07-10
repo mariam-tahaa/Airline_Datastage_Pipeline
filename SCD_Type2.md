@@ -41,20 +41,40 @@ The ETL flow consists of four major phases:
 
 ```mermaid
 graph LR
-    A[("BEFORE")] --> B[COPY]
-    C[("AFTER")] --> D[CDC]
-    
-    D --> E[ADD_INCR_COL]
-    E --> F[LKP]
-    F --> G[Key_Generator]
-    G --> H[INSERT_UPDATE_TBLS]
-    
-    B --> I[JOIN_UPDATE]
-    I --> J[FUNNEL]
-    H --> J
-    J --> K[("TARGET_DWH")]
+    subgraph "Source Systems"
+        BEFORE[("BEFORE")]
+        AFTER[("AFTER")]
+    end
 
-    classDef default fill:#f9f9f9,stroke:#333
+    subgraph "Processing Pipeline"
+        COPY[COPY Stage]
+        CDC[CDC Stage]
+        ADD_INCR[ADD_INCR_COL]
+        LKP[LKP]
+        KEY_GEN[Key_Generator]
+        JOIN_UPDATE[JOIN_UPDATE]
+        INS_UPD[INSERT_UPDATE_TBLS]
+        FUNNEL[FUNNEL]
+    end
+
+    subgraph "Target"
+        TARGET[("TARGET_DWH")]
+    end
+
+    AFTER --> CDC
+    CDC --> ADD_INCR
+    ADD_INCR --> LKP
+    LKP --> KEY_GEN
+    KEY_GEN --> INS_UPD
+
+    BEFORE --> COPY
+    COPY --> JOIN_UPDATE
+    JOIN_UPDATE -->|Old Record Flag| FUNNEL
+
+    INS_UPD -->|New Records / Active Versions| FUNNEL
+    FUNNEL --> TARGET
+
+    %% No colors – default black & white
 ```
 ---
 
