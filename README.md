@@ -426,8 +426,8 @@ erDiagram
 
 - Indexes & Partitions:
 A robust indexing strategy is implemented to accelerate lookups:
-- IDX_FACT_TICKET_PASSENGER & IDX_RES_PASSENGER: Accelerate passenger joins.
-- IDX_FACT_TICKET_DATE & IDX_RES_BOOKDATE: Accelerate time-based queries.
+    - IDX_FACT_TICKET_PASSENGER & IDX_RES_PASSENGER: Accelerate passenger joins.
+    - IDX_FACT_TICKET_DATE & IDX_RES_BOOKDATE: Accelerate time-based queries.
 
 ## 💻 Technology Stack
 
